@@ -1,38 +1,136 @@
-.App {
-  text-align: center;
+* {
+     font-family: "Nanum Gothic Coding", monospace;
+     font-style: normal;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+body,
+html {
+     background: rgb(238, 174, 202);
+     background: radial-gradient(circle, rgba(238, 174, 202, 1) 6%, rgba(148, 187, 233, 1) 87%);
+     padding-top: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* App Component */
+
+.header {
+     display: flex;
+     justify-content: center;
+     margin: 0px;
+     padding-bottom: 40px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.trackComponents {
+     display: flex;
+     justify-content: space-around;
+     margin-top: 45px;
 }
 
-.App-link {
-  color: #61dafb;
+.playlistList {
+     background: white;
+     box-shadow: 4px 4px 4px 4px black;
+     height: fit-content;
+     margin-top: 45px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Playlist Component */
+
+
+.playlistNameInput {
+     background: white;
+     width: 200px;
+     height: 30px;
+     border: none;
+     border-radius: 10px;
+     padding-left: 15px;
+}
+
+.playlistNameInputParent {
+     margin-bottom: -31px;
+}
+
+.saveListButton {
+     background: white;
+     border: none;
+     margin-left: 10px;
+     border-radius: 10px;
+     padding: 10px;
+     font-weight: bolder;
+}
+
+/* SearchBar Component  */
+
+
+.searchBarInput {
+     background: white;
+     width: 200px;
+     height: 30px;
+     border: none;
+     border-radius: 10px;
+     padding-left: 15px;
+
+}
+
+.searchBarButton {
+     background: white;
+     border: none;
+     margin-left: 10px;
+     border-radius: 10px;
+     padding: 10px;
+     font-weight: bolder;
+}
+
+/* Track Component */
+
+
+.addButton {
+     border: none;
+     margin-left: 10px;
+     border-radius: 10px;
+     padding: 10px;
+     font-weight: bolder;
+     color: #fefefe;
+     background: #888888;
+}
+
+.removeButton {
+     border: none;
+     margin-left: 10px;
+     border-radius: 10px;
+     padding: 10px;
+     font-weight: bolder;
+     color: #fefefe;
+     background: #888888;
+}
+
+.trackParent {
+     display: flex;
+     justify-content: space-between;
+     width: 500px;
+}
+
+/* UserPlaylists Component */
+
+.usersPlaylist {
+     padding: 20px
+}
+
+.playlistTitle {
+     font-weight: bold;
+     font-size: larger;
+}
+
+.playlistName {
+     font-size: 18px;
+     font-weight: 500;
+}
+
+
+/* Tracklist Component */
+
+.tracklistParent {
+     background: white;
+     box-shadow: 4px 4px 4px 4px black;
+     height: fit-content;
+     margin-top: 45px;
 }
