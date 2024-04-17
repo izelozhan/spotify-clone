@@ -109,6 +109,11 @@ html {
      width: 500px;
 }
 
+.trackButtons {
+     margin-right: 17px;
+     margin-top: 20px;
+}
+
 /* UserPlaylists Component */
 
 .usersPlaylist {
