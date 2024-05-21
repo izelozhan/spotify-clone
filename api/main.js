@@ -1,6 +1,8 @@
-var client_id = "15c69804388c42f6be2460ee79d5be74";
-var client_secret = "98ccdd95887545e1b6531106596dfbca";
-var redirect_uri = "http://localhost:3000/";
+require("dotenv").config();
+
+const client_id = process.env.client_id;
+const client_secret = process.env.client_secret;
+const redirect_uri = process.env.redirect_uri;
 
 const express = require("express");
 const app = express();
@@ -18,17 +20,18 @@ app.get("/login", function (req, res) {
   var state = Math.random() * 100000;
   var scope =
     "user-read-private user-read-email playlist-modify-public playlist-modify-private playlist-read-private playlist-read-collaborative";
-
-  res.redirect(
+  const url =
     "https://accounts.spotify.com/authorize?" +
-      querystring.stringify({
-        response_type: "code",
-        client_id: client_id,
-        scope: scope,
-        redirect_uri: redirect_uri,
-        state: state,
-      })
-  );
+    querystring.stringify({
+      response_type: "code",
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      state: state,
+    });
+  res.json({
+    url: url,
+  });
 });
 
 app.get("/callback", function (req, res) {

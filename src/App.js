@@ -4,9 +4,9 @@ import Playlist from "./Playlist";
 import SearchBar from "./SearchBar";
 import Tracklist from "./Tracklist";
 import UsersPlaylists from "./UserPlaylists";
-
+const API_URL = "http://localhost:3001";
 function App() {
-  const [spotifyToken, setSpotifyToken] = useState("");
+  // const [spotifyToken, setSpotifyToken] = useState("");
   const [searchResults, setSearchResults] = useState([]); //search results / array
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
@@ -19,25 +19,54 @@ function App() {
       string = string.split("&")[0];
       string = string.split("=")[1];
       console.log(string);
-      fetch("http://localhost:3001/callback?code=" + string).then((res) => {
-        res.json().then((actual_data) => {
-          if (actual_data.access_token) {
-            setSpotifyToken(actual_data);
-            localStorage.setItem("token", actual_data.access_token);
-            window.location.href = "/";
+      fetch("http://localhost:3001/callback?code=" + string).then(
+        async (res) => {
+          try {
+            const actual_data = await res.json();
+            if (actual_data.access_token) {
+              // setSpotifyToken(actual_data);
+              const profile = await fetchProfile(actual_data.access_token);
+              localStorage.setItem("token", actual_data.access_token);
+              localStorage.setItem("userId", profile.id);
+              window.location.href = "/";
+              await getUserPlaylist();
+            }
+          } catch {
+            throw new Error("Error get user playlist");
           }
-        });
-      });
+        }
+      );
     } else {
       let token = localStorage.getItem("token");
       if (token) {
-        setSpotifyToken(token);
+        // setSpotifyToken(token);
         getUserPlaylist()
           .then(() => {})
-          .catch(() => {});
+          .catch(() => {
+            localStorage.clear();
+            window.location.href = "/";
+          });
+      } else {
+        fetch(API_URL + "/login").then(async (res) => {
+          let data = await res.json();
+          let url = data.url;
+          window.location.href = url;
+        });
       }
     }
   }, []);
+
+  async function fetchProfile(token) {
+    try {
+      const result = await fetch("https://api.spotify.com/v1/me", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return await result.json();
+    } catch {
+      throw new Error("Failed to get profile.");
+    }
+  }
 
   const search = async (text) => {
     let token = localStorage.getItem("token");
@@ -173,7 +202,9 @@ function App() {
 
       const userPlaylist = await getPlaylistResponse.json();
       setUserPlaylists(userPlaylist);
-    } catch {}
+    } catch {
+      throw new Error("Token expired");
+    }
   };
 
   return (
@@ -184,11 +215,15 @@ function App() {
       </div>
 
       <div className="trackComponents">
-        <Tracklist
-          tracks={searchResults}
-          onAdd={addTrackToPlaylist}
-          isRemoval={false}
-        />
+        {searchResults ? (
+          <Tracklist
+            tracks={searchResults}
+            onAdd={addTrackToPlaylist}
+            isRemoval={false}
+          />
+        ) : (
+          <div>Searching</div>
+        )}
 
         <Playlist
           onRemove={removeTrackToPlaylist}
@@ -201,10 +236,7 @@ function App() {
 
         <div className="playlistList">
           <UsersPlaylists playlists={userPlaylists} />
-          {console.log(playlistTracks)}
         </div>
-
-        
       </div>
     </div>
   );
