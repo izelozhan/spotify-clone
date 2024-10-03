@@ -1,6 +1,6 @@
 # spotifyish-clone
 
-In this project, I will build a React web application called Jammming. Utilizing my knowledge of React components, state management, and integration with the Spotify API, I aim to create a platform where users can search the Spotify library, curate custom playlists, and save them to their Spotify accounts.
+In this project, I build a React web application called Jammming. Utilizing my knowledge of React components, state management, and integration with the Spotify API, I aim to create a platform where users can search the Spotify library, curate custom playlists, and save them to their Spotify accounts.
 
 Key Features:
 
