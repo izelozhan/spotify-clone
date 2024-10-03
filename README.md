@@ -46,7 +46,7 @@ npm start
 ```
 https://github.com/izelozhan/spotify-clone/assets/89089237/0f48f5ba-2bad-4d42-9e98-f44ac849a117
 
-![Jamming](https://github.com/user-attachments/assets/879a0cb5-2f79-4fa8-8208-6ca5e5ef6d70)
+![2024-10-03 14_19_07-NVIDIA GeForce Overlay](https://github.com/user-attachments/assets/cced678b-fae5-4957-92bf-920ecc591927)
 
 ```
 
