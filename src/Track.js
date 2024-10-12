@@ -1,3 +1,5 @@
+import { IoMdAdd } from "react-icons/io";
+
 function Track({ track, onAdd, onRemove, isRemoval }) {
   if (!track) return null;
 
@@ -5,12 +7,13 @@ function Track({ track, onAdd, onRemove, isRemoval }) {
     <>
       <div className="trackParent">
         <div className="trackDetails">
-          <h4>{track.name}</h4>
-          <p>
+          <div className="trackName">
+            {track.name}
+          </div>
+          <p className="trackArtist" style={{fontSize: '12px'}}>
             {track.album?.artists?.at(0)?.name} - {track.album.name}
           </p>
         </div>
-
 
         <div className="trackButtons">
           {isRemoval ? (
@@ -19,7 +22,8 @@ function Track({ track, onAdd, onRemove, isRemoval }) {
             </button>
           ) : (
             <button className="addButton" onClick={() => onAdd(track)}>
-              Add
+              <div className="buttonAdd">Add</div>
+              <IoMdAdd />
             </button>
           )}
         </div>

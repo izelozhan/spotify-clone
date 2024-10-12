@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import Playlist from "./Playlist";
 import SearchBar from "./SearchBar";
 import Tracklist from "./Tracklist";
 import UsersPlaylists from "./UserPlaylists";
+import SavePlaylist from "./SavePlaylist";
+
 const API_URL = "http://localhost:3001";
+
 function App() {
-  // const [spotifyToken, setSpotifyToken] = useState("");
-  const [searchResults, setSearchResults] = useState([]); //search results / array
+  const [searchResults, setSearchResults] = useState([]);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
   const [userPlaylists, setUserPlaylists] = useState({ items: [] });
@@ -44,6 +46,7 @@ function App() {
           .then(() => {})
           .catch(() => {
             localStorage.clear();
+            alert("Your session has expired. Please log in again.");
             window.location.href = "/";
           });
       } else {
@@ -55,6 +58,15 @@ function App() {
       }
     }
   }, []);
+  const addTrackToPlaylist = useCallback(
+    (track) => {
+      const isTrackInPlaylist = playlistTracks.some((t) => t.id === track.id);
+      if (!isTrackInPlaylist) {
+        setPlaylistTracks([...playlistTracks, track]);
+      }
+    },
+    [playlistTracks]
+  );
 
   async function fetchProfile(token) {
     try {
@@ -98,13 +110,6 @@ function App() {
 
   const updatePlaylistTracks = (tracks) => {
     setPlaylistTracks(tracks);
-  };
-
-  const addTrackToPlaylist = (track) => {
-    const isTrackInPlaylist = playlistTracks.some((t) => t.id === track.id);
-    if (!isTrackInPlaylist) {
-      setPlaylistTracks([...playlistTracks, track]);
-    }
   };
 
   const removeTrackToPlaylist = (track) => {
@@ -209,33 +214,45 @@ function App() {
 
   return (
     <div className="App">
-      <div>
+      <div className="headerParent">
         <h1 className="header">Jammming</h1>
         <SearchBar search={search} />
       </div>
-
-      <div className="trackComponents">
-        {searchResults ? (
-          <Tracklist
-            tracks={searchResults}
-            onAdd={addTrackToPlaylist}
-            isRemoval={false}
-          />
-        ) : (
-          <div>Searching</div>
-        )}
-
-        <Playlist
-          onRemove={removeTrackToPlaylist}
-          playlistName={playlistName}
+      <div className="saveNewPlaylist">
+        <SavePlaylist
           playlistTracks={playlistTracks}
+          playlistName={playlistName}
           setPlaylistName={setPlaylistName}
-          updatePlaylistTracks={updatePlaylistTracks}
           savePlaylistToSpotify={savePlaylistToSpotify}
         />
-
+      </div>
+      <div className="trackComponents">
         <div className="playlistList">
           <UsersPlaylists playlists={userPlaylists} />
+        </div>
+
+        <div className="searchResults">
+          {searchResults ? (
+            <Tracklist
+              tracks={searchResults}
+              defaultHeader={"Results"}
+              onAdd={addTrackToPlaylist}
+              isRemoval={false}
+            />
+          ) : (
+            <div>Searching</div>
+          )}
+        </div>
+
+        <div className="newPlaylist">
+          <Playlist
+            onRemove={removeTrackToPlaylist}
+            playlistName={playlistName}
+            playlistTracks={playlistTracks}
+            setPlaylistName={setPlaylistName}
+            updatePlaylistTracks={updatePlaylistTracks}
+            savePlaylistToSpotify={savePlaylistToSpotify}
+          />
         </div>
       </div>
     </div>

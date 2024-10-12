@@ -7,7 +7,7 @@ function SearchBar({ search }) {
   };
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
         <input className="searchBarInput" ref={searchRef} type="text" />
         <button className="searchBarButton" onClick={handleSearch}>Search</button>
       </div>
